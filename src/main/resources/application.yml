@@ -1,12 +1,26 @@
 spring:
   application:
     name: api-gateway
-#  cloud:
-#    gateway:
-#      discovery:
-#        locator:
-#          enabled: true
-#          lowerCaseServiceId: true
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: cambio-service
+          uri: lb://cambio-service
+          predicates:
+            - Path=/api/cambio/**
+        - id: book-service
+          uri: lb://book-service
+          predicates:
+            - Path=/api/book/**
+        - id: openapi
+          uri: lb://api-gateway
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
 server:
   port: 8765
 eureka:
