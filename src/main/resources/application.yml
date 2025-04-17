@@ -23,6 +23,10 @@ spring:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
 server:
   port: 8765
+management:
+  tracing:
+    sampling:
+      probability: 1.0
 eureka:
   client:
     serviceUrl:
